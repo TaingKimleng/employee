@@ -8,7 +8,7 @@ const dbconnect = require('./dbconnect.js');
 const PersonModel = require('./person_schema.js');
 const TaskModel = require('./task_schema.js');
 const SubmitTaskModel = require('./submittask_schema.js');
-connectDB();
+dbconnect();
 // VIEW ALL TASKS (for employee)
 app.get('/viewalltask', (req, res) => {
   console.log("INSIDE EMPLOYEE - VIEW ALL TASKS API");

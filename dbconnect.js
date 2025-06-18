@@ -1,18 +1,24 @@
-
 const mongoose = require('mongoose');
-const uri = "mongodb+srv://kimleng:<db_password>@midterm.hniszn4.mongodb.net/?retryWrites=true&w=majority&appName=midterm";
+require('dotenv').config(); // Load from .env
 
-const clientOptions = { serverApi: { version: '1', strict: true, deprecationErrors: true } };
+const uri = process.env.MONGODB_URI;
 
-async function run() {
-  try {
-    // Create a Mongoose client with a MongoClientOptions object to set the Stable API version
-    await mongoose.connect(uri, clientOptions);
-    await mongoose.connection.db.admin().command({ ping: 1 });
-    console.log("Pinged your deployment. You successfully connected to MongoDB!");
-  } finally {
-    // Ensures that the client will close when you finish/error
-    await mongoose.disconnect();
+const clientOptions = {
+  serverApi: {
+    version: '1',
+    strict: true,
+    deprecationErrors: true
   }
-}
-run().catch(console.dir);
+};
+
+// Connect and keep the connection alive
+mongoose.connect(uri, clientOptions)
+  .then(() => {
+    console.log("✅ Connected to MongoDB successfully");
+  })
+  .catch((err) => {
+    console.error("❌ MongoDB connection error:", err);
+  });
+
+// No disconnect here — keep the connection open for the app to use
+module.exports = mongoose;

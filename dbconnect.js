@@ -1,28 +1,18 @@
-// dbconnect.js
+
 const mongoose = require('mongoose');
+const uri = "mongodb+srv://kimleng:<db_password>@midterm.hniszn4.mongodb.net/?retryWrites=true&w=majority&appName=midterm";
 
-const uri = process.env.MONGO_URI || "mongodb+srv://kimleng:<db_password>@midterm.hniszn4.mongodb.net/?retryWrites=true&w=majority&appName=midterm";
+const clientOptions = { serverApi: { version: '1', strict: true, deprecationErrors: true } };
 
-let isConnected = false;
-
-const connectDB = async () => {
-  if (isConnected) {
-    console.log('🔁 Already connected to MongoDB');
-    return;
-  }
-
+async function run() {
   try {
-    await mongoose.connect(uri, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
-
-    isConnected = true;
-    console.log('✅ MongoDB connected');
-  } catch (err) {
-    console.error('❌ MongoDB connection error:', err.message);
-    process.exit(1);
+    // Create a Mongoose client with a MongoClientOptions object to set the Stable API version
+    await mongoose.connect(uri, clientOptions);
+    await mongoose.connection.db.admin().command({ ping: 1 });
+    console.log("Pinged your deployment. You successfully connected to MongoDB!");
+  } finally {
+    // Ensures that the client will close when you finish/error
+    await mongoose.disconnect();
   }
-};
-
-module.exports = connectDB;
+}
+run().catch(console.dir);

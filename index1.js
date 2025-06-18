@@ -1,18 +1,19 @@
+// index.js
 const express = require('express');
+const bodyParser = require('body-parser');
+const connectDB = require('./dbconnect');
+
+require('dotenv').config(); // ensure this is at top
+
 const app = express();
-const bodyParser = require("body-parser");
-
-// ✅ Import the DB connection function correctly
-const connectDB = require('./dbconnect.js');
-
-// ✅ Connect to MongoDB once
-connectDB();
-
 app.use(bodyParser.json());
 
-const PersonModel = require('./person_schema.js');
-const TaskModel = require('./task_schema.js');
-const SubmitTaskModel = require('./submittask_schema.js');
+connectDB(); // ✅ Connect only once
+
+const PersonModel = require('./person_schema');
+const TaskModel = require('./task_schema');
+const SubmitTaskModel = require('./submittask_schema');
+
 
 // VIEW ALL TASKS (for employee)
 app.get('/viewalltask', (req, res) => {

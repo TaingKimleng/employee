@@ -1,25 +1,23 @@
 const express = require('express');
-const bodyParser = require('body-parser');
-const connectDB = require('./dbconnect'); // must come before models
-
 const app = express();
+
+var bodyParser = require("body-parser");
 app.use(bodyParser.json());
 
-connectDB(); // 🔥 Call once and only here
-
-const PersonModel = require('./person_schema');
-const TaskModel = require('./task_schema');
-const SubmitTaskModel = require('./submittask_schema');
+const dbconnect = require('./dbconnect.js');
+const PersonModel = require('./person_schema.js');
+const dailytaskModel = require('./dailytask_schema.js');
+const SubmitAssignmentModel = require('./submittask_schema.js');
 
 /*
 In the postman use the following URL
-localhost:5004/viewalltask
+localhost:5004/viewschedule
 */
 
-//View task submission API
-app.get('/tasksubmission', (req, res) => {
-    console.log("INSIDE EMPLOYEE TASK SUBMISSION API")
-    TaskModel.find()
+//VIEW WORK SCHEDULE API
+app.get('/viewschedule', (req, res) => {
+    console.log("INSIDE VIEW WORK SCHEDULE API")
+    PersonModel.find()
     .then(getalldocumentsfrommongodb => {
       res.status(200).send(getalldocumentsfrommongodb);
     }) //CLOSE THEN
@@ -31,7 +29,7 @@ app.get('/tasksubmission', (req, res) => {
 
 /*
 In the postman use the following URL
-localhost:5004/updateprofile/4924
+localhost:5004/dailytask
 
 {
   "newpassword":"xyz",
@@ -39,10 +37,10 @@ localhost:5004/updateprofile/4924
 }
 
 */
-//employee daily task API
-app.get('/dailytask/:sid', (req, res) => {
-  console.log("INSIDE EMPLOYEE TASK API")
-  PersonModel.findOneAndUpdate({ "id": parseInt(req.params.sid) },
+//DAILY TASK API
+app.put('/dailytask/:sid', (req, res) => {
+  console.log("INSIDE DAILY TASK ASSIGNMENT API")
+  dailytaskModel.findOneAndUpdate({ "id": parseInt(req.params.sid) },
   {
     $set: {
       "pass": req.body.newpassword,
@@ -66,20 +64,20 @@ In the postman use the following URL
 localhost:5004/submittask
 
 {
-  "taskid":"5131",
-  "employeename":"tom",
+  "assignmentid":"5131",
+  "studentname":"tom",
   "description":"ABCD"
 }
 
 */
-//Work schedule API
-app.post('/work schedule', (req, res) => {
-  console.log("INSIDE EMPLOYEE WORK SCHEDULE API")
-  const aobj = new SubmitTaskModel({
-          taskid: req.body.taskid,
-          employeename: req.body.employeename,
+//SUBMIT TASK API
+app.post('/submittask', (req, res) => {
+  console.log("INSIDE TASK SUBMISSION API")
+  const aobj = new SubmitAssignmentModel({
+          assignmentid: req.body.assignmentid,
+          studentname: req.body.studentname,
           description: req.body.description,
-        });//CLOSE Task Model
+        });//CLOSE TASKModel
           
         //INSERT/SAVE THE RECORD/DOCUMENT
         aobj.save()
@@ -91,7 +89,7 @@ app.post('/work schedule', (req, res) => {
             });//CLOSE CATCH
         }//CLOSE CALLBACK FUNCTION BODY
         );//CLOSE POST METHOD
-
+dbconnect();
 // START THE EXPRESS SERVER.
 app.listen(5004, () =>
     console.log('EXPRESS Server Started at Port No: 5004'));

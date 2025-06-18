@@ -1,23 +1,14 @@
-const mongoose = require('mongoose');
+const schema_mongoose = require('mongoose');
 
-const SubmitTaskSchema = new mongoose.Schema({
-  taskid: {
-    type: mongoose.Schema.Types.ObjectId,
-    required: true,
-    ref: 'Task'
-  },
-  employeename: {
-    type: String,
-    required: true
-  },
-  description: {
-    type: String,
-    required: true
-  },
-  submittedAt: {
-    type: Date,
-    default: Date.now
-  }
-});
+const SubmitSchema = schema_mongoose.Schema(
+    {
+       assignmentid: {type: Number},
+       studentname: { type: String },
+       description: { type: String },
+    }, 
+    {
+       timestamps: true
+    }
+    );
 
-module.exports = mongoose.model('SubmitTask', SubmitTaskSchema);
+module.exports = schema_mongoose.model('submit_collection', SubmitSchema);

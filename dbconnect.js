@@ -1,27 +1,18 @@
+
 const mongoose = require('mongoose');
-require('dotenv').config(); // Load environment variables
+const uri = "mongodb+srv://kimleng:<db_password>@midterm.hniszn4.mongodb.net/?retryWrites=true&w=majority&appName=midterm";
 
-const uri = process.env.MONGODB_URI;
+const clientOptions = { serverApi: { version: '1', strict: true, deprecationErrors: true } };
 
-const clientOptions = {
-  serverApi: {
-    version: '1',
-    strict: true,
-    deprecationErrors: true
+async function run() {
+  try {
+    // Create a Mongoose client with a MongoClientOptions object to set the Stable API version
+    await mongoose.connect(uri, clientOptions);
+    await mongoose.connection.db.admin().command({ ping: 1 });
+    console.log("Pinged your deployment. You successfully connected to MongoDB!");
+  } finally {
+    // Ensures that the client will close when you finish/error
+    await mongoose.disconnect();
   }
-};
-
-// Check if a connection already exists
-if (mongoose.connection.readyState === 0) {
-  mongoose.connect(uri, clientOptions)
-    .then(() => {
-      console.log("✅ Connected to MongoDB successfully");
-    })
-    .catch((err) => {
-      console.error("❌ MongoDB connection error:", err);
-    });
-} else {
-  console.log("🔁 Reusing existing MongoDB connection");
 }
-
-module.exports = mongoose;
+run().catch(console.dir);

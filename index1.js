@@ -8,7 +8,7 @@ const dbconnect = require('./dbconnect.js');
 const PersonModel = require('./person_schema.js');
 const TaskModel = require('./task_schema.js');
 const SubmitTaskModel = require('./submittask_schema.js');
-
+dbconnect();
 // ------------------------------
 // View All Task Submissions
 // ------------------------------

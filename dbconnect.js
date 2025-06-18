@@ -1,3 +1,4 @@
+
 const mongoose = require('mongoose');
 const uri = "mongodb+srv://kimleng:<db_password>@midterm.hniszn4.mongodb.net/?retryWrites=true&w=majority&appName=midterm";
 
@@ -15,14 +16,3 @@ async function run() {
   }
 }
 run().catch(console.dir);
-
-mongoose.connect('mongodb://localhost:5004/kim leng', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-})
-.then(() => console.log('MongoDB connected'))
-.catch(err => {
-  console.error('MongoDB connection error:', err);
-});
-
-module.exports= mongoose;

@@ -89,7 +89,6 @@ app.post('/submittask', (req, res) => {
             });//CLOSE CATCH
         }//CLOSE CALLBACK FUNCTION BODY
         );//CLOSE POST METHOD
-dbconnect();
 // START THE EXPRESS SERVER.
 app.listen(5004, () =>
     console.log('EXPRESS Server Started at Port No: 5004'));

@@ -8,7 +8,7 @@ const dbconnect = require('./dbconnect');
 const PersonModel = require('./person_schema.js');
 const dailytaskModel = require('./dailytask_schema.js');
 const SubmitAssignmentModel = require('./submittask_schema.js');
-
+dbconnect();
 /*
 In the postman use the following URL
 localhost:5004/viewschedule

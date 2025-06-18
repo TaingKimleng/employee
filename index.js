@@ -1,13 +1,15 @@
 const express = require('express');
-const app = express();
+const bodyParser = require('body-parser');
+const connectDB = require('./dbconnect'); // must come before models
 
-var bodyParser = require("body-parser");
+const app = express();
 app.use(bodyParser.json());
 
-const dbconnect = require('./dbconnect.js');
-const PersonModel = require('./person_schema.js');
-const TaskModel = require('./task_schema.js');
-const SubmitTaskModel = require('./submittask_schema.js');
+connectDB(); // 🔥 Call once and only here
+
+const PersonModel = require('./person_schema');
+const TaskModel = require('./task_schema');
+const SubmitTaskModel = require('./submittask_schema');
 
 /*
 In the postman use the following URL

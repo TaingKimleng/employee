@@ -4,7 +4,7 @@ const app = express();
 var bodyParser = require("body-parser");
 app.use(bodyParser.json());
 
-const dbconnect = require('./dbconnect.js');
+const dbconnect = require('./dbconnect');
 const PersonModel = require('./person_schema.js');
 const dailytaskModel = require('./dailytask_schema.js');
 const SubmitAssignmentModel = require('./submittask_schema.js');
